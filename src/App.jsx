@@ -6,9 +6,9 @@ import Main from './components/main'
 const store = configureStore()
 
 const App = () => (
-  <Provider store={store}>
+  <div>
     <Main />
-  </Provider>
+  </div>
 )
 
 export default App;

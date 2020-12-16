@@ -2,72 +2,51 @@ import styled, { css } from 'styled-components'
 
 export const Card = styled.div`
   padding: 10px;
-  border: 2px solid lightgray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 15px;
+  margin: 6%;
+  margin-top: 0;
+  border-radius: 6px;
+  border: 1px solid lightgray;
+  display: box;
+  box-sizing: border-box;
 `
 
 export const Content = styled.div`
   padding: 10px;
+  margin: 6%;
   font-family: arial, sans-serif;
   line-height: 30px;
 `
 
-export const Photo = styled.div`
-  opacity: 0.5;
-  align-self: flex-start;
-  margin: 25px;
-  min-width: 150px;
-  max-width: 300px;
-  height: 150px;
-  padding: 20px;
-  border: 2px solid purple;
-  background-color: lightblue;
-  font-family: courier, serif;
-  border-radius: 10px;
-  text-align: center;
-`
-
-export const Section = styled.div`
-  max-width: 800px;
-  padding: 20px;
-`
-
-export const Title = styled.h1`
-  color: purple;
-  font-size: 1.5rem;
+export const Title = styled.h2`
+  margin-left: 6%;
+  font-size: 20px;
+  font-weight: 400!important;
 `
 export const Button = styled.button`
-  background: lightgray;
+  position: relative;
+  display: block;
+  padding: 8px 16px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  color: #586069;
+  background: #FFF;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  margin-left: 6%;
   outline: none;
   font-size: 1.1rem;
-  padding: 0.5rem;
-  border-radius: 5px;
   :hover {
     cursor: pointer;
-    color: white;
-    background: darkgray;
   }
   ${props =>
-    props.submit &&
+    props.selected &&
     css`
-      background-color: lightgreen;
-      color: darkgreen;
-      :hover {
-        color: lightgreen;
-        background: darkgreen;
-      }
-    `}
-  ${props =>
-    props.cancel &&
-    css`
-      background-color: pink;
-      color: red;
-      :hover {
-        background-color: red;
-        color: pink;
+      color: #FFFFFF;
+      background-color: #1566D6;
       }
     `}
 `

@@ -1,55 +1,70 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
+import CalendarHeatmap from 'react-calendar-heatmap';
+import 'react-calendar-heatmap/dist/styles.css';
 import { connect } from 'react-redux'
 import { isEmpty } from 'ramda'
 import moment from 'moment';
+import YearButton from './heatmapButton'
 import { fetchDates } from '../../store/actions/dates'
-import { Grid, Cell } from 'styled-css-grid'
-import { Button } from '../styled/Lib'
+import { handlers } from './handlers'
+import { months, weekday, filteredYears, sum } from './helpers'
+import { Content, Card, Title } from '../styled/Lib'
+import './heatmap.css';
 
-const DAYS = (yy) => {
-  const days = []
-  let dateStart = moment(`01/01/${yy}`, "DD/MM/YYYY")
-  let dateEnd = moment(`31/12/${yy}`, "DD/MM/YYYY")
-  while ( dateStart <= dateEnd ){
-    days.push(dateStart.toDate());
-    dateStart = dateStart.clone().add(1, 'd')
-  }
-  return days
- }
 class Heatmap extends Component {
-
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this)
+    this.state = {
+      year: '2016',
+    }
+    this.handleChildToggle = this.handleChildToggle.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchDates()
   }
 
-  handleClick= e => {
-    const selectedItem = e.target.id
-    console.log(selectedItem)
-    // this.props.history.push(`${selectedItem}`)
+  handleChildToggle(year) {
+    this.setState({
+      year: year
+    })
   }
 
   render(){
     const { dateList } = this.props
-    const days = DAYS(2016)
-    debugger
     return(
-      <Fragment>
-        {!isEmpty(days) && (
-          <Grid flow="column" rows={7} columns={53} gap="2px">
-            {Object.values(days).map(key => <Cell center><Button submit /></Cell>)}
-          </Grid>
-        )}
-        {!isEmpty(dateList) && (
-          <Grid flow="column" rows={7} columns={53} gap="2px">
-            {Object.values(dateList).map(key => <Cell center><Button cancel></Button></Cell>)}
-          </Grid>
-        )}
-      </Fragment>
+      <Content>
+        <Title>{sum(dateList, this.state.year)} contribuições em {this.state.year} </Title>
+          {!isEmpty(dateList) && (
+        <Card>
+            <CalendarHeatmap
+              startDate={moment(`01/01/${this.state.year}`, "DD/MM/YYYY")}
+              endDate={moment(`31/12/${this.state.year}`, "DD/MM/YYYY")}
+              values={ dateList }
+              classForValue={ value => handlers.handleColor(value) }
+              monthLabels={months}
+              showWeekdayLabels
+              weekdayLabels={weekday}
+              gutterSize={3}
+              titleForValue={ value => value ?
+                `${value.count} contribuições em ${moment(value.date).format('DD/MM/YYYY')}`
+                : 'Nenhuma contribuição'
+              }
+            />
+        </Card>
+            )}
+        <div>
+          {!isEmpty(dateList) && (
+            filteredYears(dateList).map(y =>
+              <YearButton
+                year={y}
+                handleChildToggle={this.handleChildToggle}
+                selectedYear={this.state.year}
+              />
+            )
+          )}
+        </div>
+      </Content>
     ) 
   }
 }
