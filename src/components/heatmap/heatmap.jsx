@@ -8,7 +8,7 @@ import YearButton from './heatmapButton'
 import { fetchDates } from '../../store/actions/dates'
 import { handlers } from './handlers'
 import { months, weekday, filteredYears, sum } from './helpers'
-import { Content, Card, Title } from '../styled/Lib'
+import { Content, Card, Title, Square, DivScale, SquareUl } from '../styled/Lib'
 import './heatmap.css';
 
 class Heatmap extends Component {
@@ -51,6 +51,17 @@ class Heatmap extends Component {
                 : 'Nenhuma contribuição'
               }
             />
+            <DivScale>
+              Menos
+                <SquareUl>
+                  <Square scaleOne />
+                  <Square scaleTwo />
+                  <Square scaleThree />
+                  <Square scaleFour />
+                  <Square scaleFive />
+                </SquareUl>
+              Mais
+            </DivScale>
         </Card>
             )}
         <div>
